@@ -6,12 +6,9 @@
 package ui;
 
 import controller.Controller;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.Validator;
 
 /**
- *
  * @author win
  */
 public class Main {

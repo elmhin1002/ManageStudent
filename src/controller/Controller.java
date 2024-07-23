@@ -9,11 +9,11 @@ import bo.ManageStudent;
 import bo.StudentInputer;
 import entity.Course;
 import entity.Student;
-import java.util.ArrayList;
 import utils.Validator;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author win
  */
 public class Controller {
@@ -42,7 +42,7 @@ public class Controller {
             if (!studentManager.add(student)) {
                 throw new Exception("Can not create Student!");
             }
-            if (studentManager.getList().size() > 3) {
+            if (studentManager.getList().size() > 2) {
                 String choice = Validator.getString("Do you continue ( Y or N)? ", "Just Y or N", "[YNyn]");
                 if (choice.equalsIgnoreCase("N")) {
                     break;
@@ -73,49 +73,41 @@ public class Controller {
         ManageStudent result = new ManageStudent();
         result.setList(list);
         System.out.println(result.toString());
-        int choice = Validator.getInt("Enter record your choice: ", "Just be 1-> " + list.size(),
-                "Invalid!", 1, list.size());
-        Student selectedStudent = list.get(choice - 1);
-        System.out.println(selectedStudent);
-        String choose = Validator.getString("Do you want Update(U) or Delete(D): ",
-                "Just U or D", "[UDud]");
+        int choice = Validator.getInt("Enter record your choice: ", "Just be 1-> " + list.size(), "Invalid!", 1, list.size());
+        Student student = list.get(choice - 1);
+        System.out.println(student);
+        String choose = Validator.getString("Do you want Update(U) or Delete(D): ", "Just U or D", "[UDud]");
         if (choose.equalsIgnoreCase("U")) {
-            System.out.println("Updating student with ID: " + selectedStudent.getId());
-            String newName = Validator.getString("Enter new name: ", "Invalid!", "[A-Za-z\\s]+");
-            for (Student student : studentManager.getListStudentById(selectedStudent.getId())) {
-                student.setStudentName(newName);
-            }
+            inputer.inputStudentName();
             inputer.inputSemester();
-            String newSemester = inputer.getStudent().getSemester();
             inputer.inputCourseName();
-            Course newCourse = inputer.getStudent().getCourseName();
+            Student newStudent = inputer.getStudent();
 
-            // Check if both new semester and new course name already exist for this student ID
-            boolean duplicateFound = studentManager.getList().stream().anyMatch(s ->
-                    s.getId().equals(selectedStudent.getId()) &&
-                            s.getSemester().equals(newSemester) &&
-                            s.getCourseName().equals(newCourse)
-            );
-
-            // Check if course name exists for this student ID
-            boolean courseNameExists = studentManager.getList().stream().anyMatch(s ->
-                    s.getId().equals(selectedStudent.getId()) &&
-                            s.getCourseName().equals(newCourse)
-            );
-
-            if (duplicateFound) {
-                throw new Exception("Both semester and course name already exist for this student ID!");
-            } else if (courseNameExists && !selectedStudent.getSemester().equals(newSemester)) {
-                selectedStudent.setCourseName(newCourse);
+            if (!newStudent.getStudentName().equals(student.getStudentName())) {
+                for (Student s : studentManager.getListStudentById(student.getId())) {
+                    s.setStudentName(newStudent.getStudentName());
+                }
             }
 
-            selectedStudent.setSemester(newSemester);
+            boolean isDuplicate = false;
+            for (Student s : studentManager.getListStudentById(student.getId())) {
+                if (s.getSemester().equals(newStudent.getSemester()) &&
+                        s.getCourseName().equals(newStudent.getCourseName())) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
 
+            if (isDuplicate) {
+                throw new Exception("New record be duplicate!!");
+            } else {
+                student.setSemester(newStudent.getSemester());
+                student.setCourseName(newStudent.getCourseName());
+            }
         } else {
-            studentManager.delete(selectedStudent);
+            studentManager.delete(student);
         }
     }
-
 
 
     public void report() throws Exception {
@@ -128,7 +120,7 @@ public class Controller {
 
     public void generateStudent() throws Exception {
         studentManager.add(new Student("se1", "Nguyen Quan", "Fall2023", Course.JAVA));
-        studentManager.add(new Student("se2", "Nguyen Quan", "Fall2024", Course.JAVA));
+        studentManager.add(new Student("se7", "Nguyen Quan", "Fall2024", Course.JAVA));
         studentManager.add(new Student("se1", "Nguyen Quan", "Fall2023", Course.C_CPP));
         studentManager.add(new Student("se1", "Nguyen Quan", "Fall2023", Course.DOT_NET));
         studentManager.add(new Student("se2", "Tran Linh", "Sum2024", Course.JAVA));

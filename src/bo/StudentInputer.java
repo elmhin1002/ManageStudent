@@ -10,7 +10,6 @@ import entity.Student;
 import utils.Validator;
 
 /**
- *
  * @author win
  */
 public class StudentInputer {
@@ -24,6 +23,7 @@ public class StudentInputer {
     public void inputID() {
         student.setId(Validator.getString("Enter id: ", "Invalid!", "^(SE|se)\\d+$"));
     }
+
     public void inputStudentName() {
         student.setStudentName(Validator.getString("Enter name student: ", "Invalid!",
                 "[A-Za-z\\s]+"));
@@ -35,10 +35,10 @@ public class StudentInputer {
 
     public void inputCourseName() {
         int choice = Validator.getInt("Only three courses:\n"
-                + "1-Java\n"
-                + "2-.Net\n"
-                + "3-C/C++\n"
-                + "Enter your choice:",
+                        + "1-Java\n"
+                        + "2-.Net\n"
+                        + "3-C/C++\n"
+                        + "Enter your choice:",
                 "Please enter number 1->3", "Invalid", 1, 3);
         student.setCourseName(Course.getCourse(choice));
     }
@@ -46,5 +46,5 @@ public class StudentInputer {
     public Student getStudent() {
         return student;
     }
-    
+
 }

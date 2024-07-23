@@ -6,7 +6,6 @@
 package entity;
 
 /**
- *
  * @author win
  */
 public enum Course {

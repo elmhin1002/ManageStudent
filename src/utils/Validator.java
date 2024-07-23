@@ -17,15 +17,15 @@ public class Validator {
     private Validator() {
     }
 
-     /**
-     *Return the valid integer value scanned from the input
-     * 
-     * @param messageInfo               the message to be printed instructing 
-     * the user to input
-     * @param messageErrorOutOfRange    the message to be printed if the String 
-     * parse value is out of range
+    /**
+     * Return the valid integer value scanned from the input
+     *
+     * @param messageInfo               the message to be printed instructing
+     *                                  the user to input
+     * @param messageErrorOutOfRange    the message to be printed if the String
+     *                                  parse value is out of range
      * @param messageErrorInvalidNumber the message to be printed if the String
-     * does not contain a parable integer
+     *                                  does not contain a parable integer
      * @param min                       minimum Limit value
      * @param max                       maximum Limit value
      * @return the valid integer value scanned from the input
@@ -48,16 +48,16 @@ public class Validator {
             }
         } while (true);
     }
-    
-     /**
-     *Return the valid real number value scanned from the input
-     * 
-     * @param messageInfo               the message to be printed instructing 
-     * the user to input
-     * @param messageErrorOutOfRange    the message to be printed if the String 
-     * parse value is out of range
+
+    /**
+     * Return the valid real number value scanned from the input
+     *
+     * @param messageInfo               the message to be printed instructing
+     *                                  the user to input
+     * @param messageErrorOutOfRange    the message to be printed if the String
+     *                                  parse value is out of range
      * @param messageErrorInvalidNumber the message to be printed if the String
-     * does not contain a parable real number
+     *                                  does not contain a parable real number
      * @param min                       minimum Limit value
      * @param max                       maximum Limit value
      * @return the valid real number value scanned from the input
@@ -82,18 +82,18 @@ public class Validator {
     }
 
     /**
-     *Returns the valid string scanned from the input.
-     * 
+     * Returns the valid string scanned from the input.
+     *
      * @param messageInfo  the message to be printed instructing
-     * the user to input
-     * @param messageError the message will be printed if the input 
-     * does not match the
-     * regular expression
+     *                     the user to input
+     * @param messageError the message will be printed if the input
+     *                     does not match the
+     *                     regular expression
      * @param REGEX        the pattern to test String is valid or not
      * @return the valid string value
      */
     public static String getString(String messageInfo, String messageError,
-            final String REGEX) {
+                                   final String REGEX) {
         do {
             System.out.print(messageInfo);
             String str = SCANNER.nextLine();

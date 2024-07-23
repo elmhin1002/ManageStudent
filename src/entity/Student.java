@@ -56,7 +56,7 @@ public class Student implements Comparable<Student> {
 
     @Override
     public String toString() {
-        return "Student{"+id + ", " + studentName + ", " + semester + ", " + courseName.getLanguage() + '}';
+        return "Student{" + id + ", " + studentName + ", " + semester + ", " + courseName.getLanguage() + '}';
     }
 
 }
