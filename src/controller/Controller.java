@@ -52,7 +52,7 @@ public class Controller {
     }
 
     public void findAndSort() throws Exception {
-        String name = Validator.getString("Enter name student: ", "Invalid!", "[A-Za-z\\s]+");
+        String name = Validator.getString("Enter name student: ", "Invalid!", "[A-Za-z\\s]+").trim();
         ArrayList<Student> list = studentManager.getListStudentByName(name);
         if (list.isEmpty()) {
             throw new Exception("Can not found name!");
@@ -75,27 +75,48 @@ public class Controller {
         System.out.println(result.toString());
         int choice = Validator.getInt("Enter record your choice: ", "Just be 1-> " + list.size(),
                 "Invalid!", 1, list.size());
-        Student student = list.get(choice - 1);
-        System.out.println(student);
+        Student selectedStudent = list.get(choice - 1);
+        System.out.println(selectedStudent);
         String choose = Validator.getString("Do you want Update(U) or Delete(D): ",
                 "Just U or D", "[UDud]");
         if (choose.equalsIgnoreCase("U")) {
-            inputer.inputID();
-            Student newStudent = inputer.getStudent();
-            if (studentManager.getListStudentById(newStudent.getId()).isEmpty()) {
-                inputer.inputStudentName();
-            } else {
-                String name = studentManager.getListStudentById(newStudent.getId()).get(0).getStudentName();
-                newStudent.setStudentName(name);
-                System.out.println("Name: " + name);
+            System.out.println("Updating student with ID: " + selectedStudent.getId());
+            String newName = Validator.getString("Enter new name: ", "Invalid!", "[A-Za-z\\s]+");
+            for (Student student : studentManager.getListStudentById(selectedStudent.getId())) {
+                student.setStudentName(newName);
             }
             inputer.inputSemester();
+            String newSemester = inputer.getStudent().getSemester();
             inputer.inputCourseName();
-            studentManager.update(student, newStudent);
+            Course newCourse = inputer.getStudent().getCourseName();
+
+            // Check if both new semester and new course name already exist for this student ID
+            boolean duplicateFound = studentManager.getList().stream().anyMatch(s ->
+                    s.getId().equals(selectedStudent.getId()) &&
+                            s.getSemester().equals(newSemester) &&
+                            s.getCourseName().equals(newCourse)
+            );
+
+            // Check if course name exists for this student ID
+            boolean courseNameExists = studentManager.getList().stream().anyMatch(s ->
+                    s.getId().equals(selectedStudent.getId()) &&
+                            s.getCourseName().equals(newCourse)
+            );
+
+            if (duplicateFound) {
+                throw new Exception("Both semester and course name already exist for this student ID!");
+            } else if (courseNameExists && !selectedStudent.getSemester().equals(newSemester)) {
+                selectedStudent.setCourseName(newCourse);
+            }
+
+            selectedStudent.setSemester(newSemester);
+
         } else {
-            studentManager.delete(student);
+            studentManager.delete(selectedStudent);
         }
     }
+
+
 
     public void report() throws Exception {
         String result = studentManager.report();

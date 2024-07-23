@@ -21,11 +21,11 @@ public class Main {
      */
     public static void main(String[] args) {
         Controller control = new Controller();
-//        try {
-//            control.generateStudent();
-//        } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
-//        }
+        try {
+            control.generateStudent();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         while (true) {
             int choice = Validator.getInt("WELCOME TO STUDENT MANAGEMENT\n"
                     + "1.	Create\n"
