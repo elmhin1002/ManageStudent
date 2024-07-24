@@ -82,28 +82,7 @@ public class Controller {
             inputer.inputSemester();
             inputer.inputCourseName();
             Student newStudent = inputer.getStudent();
-
-            if (!newStudent.getStudentName().equals(student.getStudentName())) {
-                for (Student s : studentManager.getListStudentById(student.getId())) {
-                    s.setStudentName(newStudent.getStudentName());
-                }
-            }
-
-            boolean isDuplicate = false;
-            for (Student s : studentManager.getListStudentById(student.getId())) {
-                if (s.getSemester().equals(newStudent.getSemester()) &&
-                        s.getCourseName().equals(newStudent.getCourseName())) {
-                    isDuplicate = true;
-                    break;
-                }
-            }
-
-            if (isDuplicate) {
-                throw new Exception("New record be duplicate!!");
-            } else {
-                student.setSemester(newStudent.getSemester());
-                student.setCourseName(newStudent.getCourseName());
-            }
+            studentManager.updateStudent(student, newStudent);
         } else {
             studentManager.delete(student);
         }

@@ -59,26 +59,27 @@ public class ManageStudent {
         return list.remove(student);
     }
 
-    private int getIndexRecord(Student student) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals(student)) {
-                return i;
+    public void updateStudent(Student student, Student newStudent) throws Exception {
+        if (!newStudent.getStudentName().equals(student.getStudentName())) {
+            for (Student s : getListStudentById(student.getId())) {
+                s.setStudentName(newStudent.getStudentName());
             }
         }
-        return -1;
-    }
 
-    public void update(Student oldStudentRecord, Student newStudentRecord) throws Exception {
-        if (list.isEmpty()) {
-            throw new Exception("List is empty can not update");
-        }
-        if (!isExisted(oldStudentRecord)) {
-            throw new Exception("This record can not found!");
-        } else {
-            if (isExisted(newStudentRecord)) {
-                throw new Exception("New record be duplicate!!");
+        boolean isDuplicate = false;
+        for (Student s : getListStudentById(student.getId())) {
+            if (s.getSemester().equals(newStudent.getSemester()) &&
+                    s.getCourseName().equals(newStudent.getCourseName())) {
+                isDuplicate = true;
+                break;
             }
-            list.set(getIndexRecord(oldStudentRecord), newStudentRecord);
+        }
+
+        if (isDuplicate) {
+            throw new Exception("New record be duplicate!!");
+        } else {
+            student.setSemester(newStudent.getSemester());
+            student.setCourseName(newStudent.getCourseName());
         }
     }
 
